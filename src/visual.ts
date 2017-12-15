@@ -50,12 +50,15 @@ module powerbi.extensibility.visual {
 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
+            if (!options.dataViews) return;
             this.dataView = options.dataViews[0];
             if (this.dataView.categorical.categories.length > 0) {
                 while (this.target.firstChild) {
                     this.target.removeChild(this.target.firstChild)
                 }
-                let lBubble = this.dataView.categorical.categories[0].values as any[];
+                debugger;
+                let lBubble : any[];
+                lBubble = this.dataView.categorical.categories[0].values as any[];
                 let rBubble : any[];
                 if (this.dataView.categorical.categories.length > 1) {
                     rBubble = this.dataView.categorical.categories[1].values as any[];
@@ -73,7 +76,7 @@ module powerbi.extensibility.visual {
                         const new_li2: HTMLElement = document.createElement("li");
                         new_li2.setAttribute("class", "me");
                         new_li2.setAttribute("style", "background: " + this.settings.dataPoint.rightColor + "; color: " + this.settings.dataPoint.rightFont + ";");
-                        new_li2.appendChild(document.createTextNode(rBubble[i]));    
+                        new_li2.appendChild(document.createTextNode(rBubble[i]));
                         new_ul.appendChild(new_li2);
                     }
                 }
