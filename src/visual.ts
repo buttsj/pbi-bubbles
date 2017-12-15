@@ -31,9 +31,11 @@ module powerbi.extensibility.visual {
         private updateCount: number;
         private settings: VisualSettings;
         private dataView: DataView;
+        private selectionManager: ISelectionManager;
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
+            this.selectionManager = options.host.createSelectionManager();
             if (typeof document !== "undefined") {
                 const new_ul: HTMLElement = document.createElement("ul");
                 const new_li1: HTMLElement = document.createElement("li");
@@ -56,7 +58,6 @@ module powerbi.extensibility.visual {
                 while (this.target.firstChild) {
                     this.target.removeChild(this.target.firstChild)
                 }
-                debugger;
                 let lBubble : any[];
                 lBubble = this.dataView.categorical.categories[0].values as any[];
                 let rBubble : any[];
@@ -70,6 +71,7 @@ module powerbi.extensibility.visual {
                         new_li1.setAttribute("class", "him");
                         new_li1.setAttribute("style", "background: " + this.settings.dataPoint.leftColor + "; color: " + this.settings.dataPoint.leftFont + ";");
                         new_li1.appendChild(document.createTextNode(lBubble[i]));
+                        new_li1.onclick = this.getClickHandler();
                         new_ul.appendChild(new_li1);
                     }
                     if (i < rBubble.length) {
@@ -77,10 +79,17 @@ module powerbi.extensibility.visual {
                         new_li2.setAttribute("class", "me");
                         new_li2.setAttribute("style", "background: " + this.settings.dataPoint.rightColor + "; color: " + this.settings.dataPoint.rightFont + ";");
                         new_li2.appendChild(document.createTextNode(rBubble[i]));
+                        new_li2.onclick = this.getClickHandler();
                         new_ul.appendChild(new_li2);
                     }
                 }
                 this.target.appendChild(new_ul);
+            }
+        }
+
+        private getClickHandler() {
+            return function() {
+                
             }
         }
 
