@@ -1,22 +1,22 @@
 {
     "dataRoles": [
         {
-            "displayName": "Category Data",
-            "name": "category",
+            "displayName": "Left Bubble",
+            "name": "lbubble",
             "kind": "Grouping"
         },
         {
-            "displayName": "Measure Data",
-            "name": "measure",
-            "kind": "Measure"
+            "displayName": "Right Bubble",
+            "name": "rbubble",
+            "kind": "Grouping"
         }
     ],
     "objects": {
         "dataPoint": {
             "displayName": "Data colors",
             "properties": {
-                "defaultColor": {
-                    "displayName": "Default color",
+                "leftColor": {
+                    "displayName": "Left color",
                     "type": {
                         "fill": {
                             "solid": {
@@ -25,14 +25,8 @@
                         }
                     }
                 },
-                "showAllDataPoints": {
-                    "displayName": "Show all",
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "fill": {
-                    "displayName": "Fill",
+                "rightColor": {
+                    "displayName": "Right color",
                     "type": {
                         "fill": {
                             "solid": {
@@ -41,17 +35,23 @@
                         }
                     }
                 },
-                "fillRule": {
-                    "displayName": "Color saturation",
+                "leftFont": {
+                    "displayName": "Left font",
                     "type": {
-                        "fill": {}
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
                     }
                 },
-                 "fontSize": {
-                    "displayName": "Text Size",
+                "rightFont": {
+                    "displayName": "Right font",
                     "type": {
-                        "formatting": {
-                            "fontSize": true
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
                         }
                     }
                 }
@@ -60,20 +60,28 @@
     },
     "dataViewMappings": [
         {
-            "categorical": {
-                "categories": {
-                    "for": {
-                        "in": "category"
-                    },
+            "conditions":[
+                {
+                    "lbubble": { "max": 1 },
+                    "rbubble": { "max": 1 }
+                }
+            ],
+            "table": {
+                "rows": {
                     "dataReductionAlgorithm": {
-                        "top": {}
-                    }
-                },
-                "values": {
+                        "top": {
+                            "count": 20000
+                        }
+                    },
                     "select": [
                         {
-                            "bind": {
-                                "to": "measure"
+                            "for": {
+                                "in": "lbubble"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "rbubble"
                             }
                         }
                     ]

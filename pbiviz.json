@@ -5,14 +5,14 @@
     "guid": "pbiBubbles3E5A1BA1E8AC477CAA862EEB96B87842",
     "visualClassName": "Visual",
     "version": "1.0.0",
-    "description": "",
-    "supportUrl": "",
-    "gitHubUrl": ""
+    "description": "A Power BI visualization to create a 'chatroom' with bubble messages",
+    "supportUrl": "https://www.dreameater.net",
+    "gitHubUrl": "https://www.github.com/buttsj/pbi-bubbles"
   },
   "apiVersion": "1.9.0",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Jack Butts",
+    "email": "buttsjofficial@gmail.com"
   },
   "assets": {
     "icon": "assets/icon.png"

@@ -30,28 +30,54 @@ module powerbi.extensibility.visual {
         private target: HTMLElement;
         private updateCount: number;
         private settings: VisualSettings;
-        private textNode: Text;
+        private dataView: DataView;
 
         constructor(options: VisualConstructorOptions) {
-            console.log('Visual constructor', options);
             this.target = options.element;
-            this.updateCount = 0;
             if (typeof document !== "undefined") {
-                const new_p: HTMLElement = document.createElement("p");
-                new_p.appendChild(document.createTextNode("Update count:"));
-                const new_em: HTMLElement = document.createElement("em");
-                this.textNode = document.createTextNode(this.updateCount.toString());
-                new_em.appendChild(this.textNode);
-                new_p.appendChild(new_em);
-                this.target.appendChild(new_p);
+                const new_ul: HTMLElement = document.createElement("ul");
+                const new_li1: HTMLElement = document.createElement("li");
+                new_li1.setAttribute("class", "him");
+                new_li1.appendChild(document.createTextNode("Add data to the left side!"));
+                const new_li2: HTMLElement = document.createElement("li");
+                new_li2.setAttribute("class", "me");
+                new_li2.appendChild(document.createTextNode("...or add data to the right side!"));
+                new_ul.appendChild(new_li1);
+                new_ul.appendChild(new_li2);
+                this.target.appendChild(new_ul);
             }
         }
 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-            console.log('Visual update', options);
-            if (typeof this.textNode !== "undefined") {
-                this.textNode.textContent = (this.updateCount++).toString();
+            this.dataView = options.dataViews[0];
+            if (this.dataView.categorical.categories.length > 0) {
+                while (this.target.firstChild) {
+                    this.target.removeChild(this.target.firstChild)
+                }
+                let lBubble = this.dataView.categorical.categories[0].values as any[];
+                let rBubble : any[];
+                if (this.dataView.categorical.categories.length > 1) {
+                    rBubble = this.dataView.categorical.categories[1].values as any[];
+                }
+                const new_ul: HTMLElement = document.createElement("ul");
+                for (let i = 0; i < Math.max(lBubble.length, rBubble.length); i++) {
+                    if (i < lBubble.length) {
+                        const new_li1: HTMLElement = document.createElement("li");
+                        new_li1.setAttribute("class", "him");
+                        new_li1.setAttribute("style", "background: " + this.settings.dataPoint.leftColor + "; color: " + this.settings.dataPoint.leftFont + ";");
+                        new_li1.appendChild(document.createTextNode(lBubble[i]));
+                        new_ul.appendChild(new_li1);
+                    }
+                    if (i < rBubble.length) {
+                        const new_li2: HTMLElement = document.createElement("li");
+                        new_li2.setAttribute("class", "me");
+                        new_li2.setAttribute("style", "background: " + this.settings.dataPoint.rightColor + "; color: " + this.settings.dataPoint.rightFont + ";");
+                        new_li2.appendChild(document.createTextNode(rBubble[i]));    
+                        new_ul.appendChild(new_li2);
+                    }
+                }
+                this.target.appendChild(new_ul);
             }
         }
 
