@@ -13,7 +13,7 @@
     ],
     "objects": {
         "dataPoint": {
-            "displayName": "Data colors",
+            "displayName": "Bubbles",
             "properties": {
                 "leftColor": {
                     "displayName": "Left color",
