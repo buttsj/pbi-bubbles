@@ -4,13 +4,16 @@
 ## How it works
 
 Give the visualization left/right bubble values and they will appear in a stack that is scrollable.
-
 ![Image of Visualization1](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example1.png)
 
+
+Select other related elements of visuals and see the filtering of bubbles
 ![Image of Visualization2](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example2.png)
 
+Set unique colors and get creative!
 ![Image of Visualization3](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example3.png)
 
+Examples
 ![Image of Decorated Visual 1](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example4.png) ![Image of Decorated Visual 2](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example5.png) ![Image of Decorated Visual 2](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example6.png) ![Image of Decorated Visual 2](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example7.png)
 
 ## Installing this Visualization
@@ -41,5 +44,4 @@ Jack Butts [[Github]](https://github.com/buttsj)
 
 ***
 ###### Thanks
-    * Code examples & inspiration by http://www.smartjava.org/content/render-open-data-3d-world-globe-threejs
-    * Code examples & inspiration by http://stemkoski.github.io/Three.js/Labeled-Geometry.html
+    * Code examples & inspiration by https://stackoverflow.com/questions/42256877/how-to-create-chat-bubbles-like-facebook-messenger
