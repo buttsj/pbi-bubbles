@@ -23,10 +23,10 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 module powerbi.extensibility.visual {
     export class Visual implements IVisual {
         private target: HTMLElement;
+        private innerTarget: HTMLElement;
         private host: IVisualHost;
         private settings: VisualSettings;
         private selectionIdBuilder: ISelectionIdBuilder;
@@ -41,10 +41,10 @@ module powerbi.extensibility.visual {
                 const new_ul: HTMLElement = document.createElement("ul");
                 const new_li1: HTMLElement = document.createElement("li");
                 new_li1.setAttribute("class", "him");
-                new_li1.appendChild(document.createTextNode("⠀⠀⠀⠀⠀⠀⠀⠀⠀"));
+                new_li1.appendChild(document.createTextNode("Create chat bubbles over here..."));
                 const new_li2: HTMLElement = document.createElement("li");
                 new_li2.setAttribute("class", "me");
-                new_li2.appendChild(document.createTextNode("⠀⠀⠀⠀⠀⠀⠀⠀⠀"));
+                new_li2.appendChild(document.createTextNode("...or over here!"));
                 new_ul.appendChild(new_li1);
                 new_ul.appendChild(new_li2);
                 this.target.appendChild(new_ul);
@@ -56,7 +56,6 @@ module powerbi.extensibility.visual {
             if (!options.dataViews) return;
             let dataView: DataView = options && options.dataViews && options.dataViews[0];
             if (dataView.categorical.categories.length > 0) {
-                debugger;
                 while (this.target.firstChild) {
                     this.target.removeChild(this.target.firstChild)
                 }
@@ -67,6 +66,7 @@ module powerbi.extensibility.visual {
                     rBubble = dataView.categorical.categories[1].values as any[];
                 }
                 const new_ul: HTMLElement = document.createElement("ul");
+                new_ul.setAttribute("class", "scroll-box");
                 for (var i = 0; i < Math.max(lBubble.length, rBubble.length); i++) {
                     if (i < lBubble.length) {
                         const new_li1: HTMLElement = document.createElement("li");
@@ -74,7 +74,7 @@ module powerbi.extensibility.visual {
                         new_li1.setAttribute("id", i.toString());
                         new_li1.setAttribute("style", "background: " + this.settings.dataPoint.leftColor + "; color: " + this.settings.dataPoint.leftFont + ";");
                         new_li1.appendChild(document.createTextNode(lBubble[i]));
-                        new_li1.onclick = (ev:MouseEvent) => {
+                        new_li1.onclick = (ev: MouseEvent) => {
                             this.selectionManager.select(bubbleIDS[new_li1.getAttribute("id")]).then((ids: ISelectionId[]) => {
                             });
                             ev.stopPropagation();
@@ -87,7 +87,7 @@ module powerbi.extensibility.visual {
                         new_li2.setAttribute("id", i.toString());
                         new_li2.setAttribute("style", "background: " + this.settings.dataPoint.rightColor + "; color: " + this.settings.dataPoint.rightFont + ";");
                         new_li2.appendChild(document.createTextNode(rBubble[i]));
-                        new_li2.onclick = (ev:MouseEvent) => {
+                        new_li2.onclick = (ev: MouseEvent) => {
                             this.selectionManager.select(bubbleIDS[new_li2.getAttribute("id")]).then((ids: ISelectionId[]) => {
                             });
                             ev.stopPropagation();
@@ -96,12 +96,52 @@ module powerbi.extensibility.visual {
                     }
                 }
                 this.target.appendChild(new_ul);
-                this.target.onclick = (ev:MouseEvent) => {
+                this.target.onclick = (ev: MouseEvent) => {
                     this.selectionManager.clear().then(() => {
                     });
                     ev.stopPropagation();
                 };
+                //window.SimpleScrollbar.initAll();
+                if (this.settings.dataPoint.scrollBottom) {
+                    this.scrollToBottom(new_ul);
+                }
+                
+                //new_ul.scrollTo(0, new_ul.scrollHeight);
             }
+        }
+
+        // Helper method to scroll to bottom
+        public animateScroll(duration, new_ul) {
+            var start = new_ul.scrollTop;
+            var end = new_ul.scrollHeight;
+            var change = end - start;
+            var increment = 20;
+            function easeInOut(currentTime, start, change, duration) {
+                // by Robert Penner
+                currentTime /= duration / 2;
+                if (currentTime < 1) {
+                    return change / 2 * currentTime * currentTime + start;
+                }
+                currentTime -= 1;
+                return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+            }
+            function animate(elapsedTime) {
+                elapsedTime += increment;
+                var position = easeInOut(elapsedTime, start, change, duration);
+                new_ul.scrollTop = position;
+                if (elapsedTime < duration) {
+                    setTimeout(function () {
+                        animate(elapsedTime);
+                    }, increment)
+                }
+            }
+            animate(0);
+        }
+
+        // Callback function for scrolling
+        public scrollToBottom(new_ul) {
+            var duration = 1000;
+            this.animateScroll(duration, new_ul);
         }
 
         private static getSelectionIds(dataView: DataView, host: IVisualHost): ISelectionId[] {
@@ -129,5 +169,6 @@ module powerbi.extensibility.visual {
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
             return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
         }
+
     }
 }

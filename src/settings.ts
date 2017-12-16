@@ -41,6 +41,8 @@ module powerbi.extensibility.visual {
     public leftFont: string = "#0";
     // Right font color
     public rightFont: string = "#fff";
+    // Scroll to bottom
+    public scrollBottom: boolean = false;
   }
 
 }

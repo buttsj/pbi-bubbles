@@ -1,18 +1,29 @@
-ul{
+  ul{
     list-style: none;
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: scroll;
+    overflow: hidden;
     overflow-x: hidden;
   }
-  ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
+  .scroll-box {
+    width: 100%;
+    overflow-y: scroll;
+  }
+  .scroll-box::-webkit-scrollbar {
+    width: .4em; 
+  }
+  .scroll-box::-webkit-scrollbar,
+  .scroll-box::-webkit-scrollbar-thumb {
+    overflow:visible;
+    border-radius: 4px;
+  }
+  .scroll-box::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.2); 
   }
 
   ul li{
-    display:inline-block;
+    display: inline-block;
     clear: both;
     padding: 20px;
     border-radius: 30px;
