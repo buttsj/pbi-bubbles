@@ -14,6 +14,7 @@ Set unique colors and get creative!
 ![Image of Visualization3](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example3.png)
 
 Examples
+
 ![Image of Decorated Visual 1](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example4.png) ![Image of Decorated Visual 2](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example5.png) ![Image of Decorated Visual 2](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example6.png) ![Image of Decorated Visual 2](https://github.com/buttsj/pbi-bubbles/blob/master/assets/example7.png)
 
 ## Installing this Visualization
