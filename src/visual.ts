@@ -26,27 +26,38 @@
 module powerbi.extensibility.visual {
     export class Visual implements IVisual {
         private target: HTMLElement;
-        private innerTarget: HTMLElement;
         private host: IVisualHost;
         private settings: VisualSettings;
-        private selectionIdBuilder: ISelectionIdBuilder;
         private selectionManager: ISelectionManager;
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
             this.host = options.host;
-            this.selectionIdBuilder = this.host.createSelectionIdBuilder();
             this.selectionManager = this.host.createSelectionManager();
             if (typeof document !== "undefined") {
+                // Create sample when visual is instantiated
                 const new_ul: HTMLElement = document.createElement("ul");
+                new_ul.setAttribute("class", "scroll-box");
                 const new_li1: HTMLElement = document.createElement("li");
                 new_li1.setAttribute("class", "him");
                 new_li1.appendChild(document.createTextNode("Create chat bubbles over here..."));
                 const new_li2: HTMLElement = document.createElement("li");
                 new_li2.setAttribute("class", "me");
                 new_li2.appendChild(document.createTextNode("...or over here!"));
+                const new_li3: HTMLElement = document.createElement("li");
+                new_li3.setAttribute("class", "him");
+                new_li3.appendChild(document.createTextNode("Set the color of the left/right bubbles..."));
+                const new_li4: HTMLElement = document.createElement("li");
+                new_li4.setAttribute("class", "me");
+                new_li4.appendChild(document.createTextNode("...including font!"));
+                const new_li5: HTMLElement = document.createElement("li");
+                new_li5.setAttribute("class", "him");
+                new_li5.appendChild(document.createTextNode("Autoscroll option in properties"));
                 new_ul.appendChild(new_li1);
                 new_ul.appendChild(new_li2);
+                new_ul.appendChild(new_li3);
+                new_ul.appendChild(new_li4);
+                new_ul.appendChild(new_li5);
                 this.target.appendChild(new_ul);
             }
         }
@@ -67,6 +78,7 @@ module powerbi.extensibility.visual {
                 }
                 const new_ul: HTMLElement = document.createElement("ul");
                 new_ul.setAttribute("class", "scroll-box");
+                // Loop through both data buckets creating bubbles every other time
                 for (var i = 0; i < Math.max(lBubble.length, rBubble.length); i++) {
                     if (i < lBubble.length) {
                         const new_li1: HTMLElement = document.createElement("li");
@@ -101,12 +113,9 @@ module powerbi.extensibility.visual {
                     });
                     ev.stopPropagation();
                 };
-                //window.SimpleScrollbar.initAll();
                 if (this.settings.dataPoint.scrollBottom) {
                     this.scrollToBottom(new_ul);
                 }
-                
-                //new_ul.scrollTo(0, new_ul.scrollHeight);
             }
         }
 
@@ -144,6 +153,7 @@ module powerbi.extensibility.visual {
             this.animateScroll(duration, new_ul);
         }
 
+        // Gets the selection ids for a Table custom visual
         private static getSelectionIds(dataView: DataView, host: IVisualHost): ISelectionId[] {
             return dataView.table.identity.map((identity: DataViewScopeIdentity) => {
                 const categoryColumn: DataViewCategoryColumn = {
@@ -157,6 +167,7 @@ module powerbi.extensibility.visual {
             });
         }
 
+        // Parse the settings in the settings.ts file
         private static parseSettings(dataView: DataView): VisualSettings {
             return VisualSettings.parse(dataView) as VisualSettings;
         }
