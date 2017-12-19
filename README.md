@@ -1,4 +1,5 @@
 # pbi-bubbles
+[![Build Status](https://travis-ci.org/buttsj/pbi-bubbles.svg?branch=master)](https://travis-ci.org/buttsj/pbi-bubbles)
 > A Power BI visualization to create a 'chatroom' with bubble messages :iphone: :speech_balloon:
 
 ## How it works
